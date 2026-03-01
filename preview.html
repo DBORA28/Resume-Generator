@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Resume Builder</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f3f4f6;
+}
+
+/* LAYOUT */
+.main{
+    display:flex;
+    gap:20px;
+    padding:20px;
+}
+
+/* FORM */
+.form-box{
+    width:35%;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+input,textarea{
+    width:100%;
+    padding:8px;
+    margin-bottom:12px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+/* RESUME PREVIEW */
+.resume{
+    width:65%;
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+/* HEADER */
+.header{
+    text-align:center;
+    border-bottom:2px solid black;
+    padding-bottom:10px;
+}
+
+.header h1{
+    margin:0;
+}
+
+/* SECTION */
+.section{
+    margin-top:20px;
+}
+
+.section h3{
+    border-bottom:1px solid black;
+    padding-bottom:5px;
+}
+
+/* SKILL TAGS */
+.tag{
+    display:inline-block;
+    background:#007bff;
+    color:white;
+    padding:5px 10px;
+    border-radius:15px;
+    margin:4px;
+    font-size:13px;
+}
+
+ul{
+    padding-left:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="main">
+
+<!-- FORM INPUT -->
+<div class="form-box">
+<h2>Resume Input</h2>
+
+<input type="text" id="name" placeholder="Name">
+<input type="email" id="email" placeholder="Email">
+<input type="text" id="phone" placeholder="Phone">
+
+<textarea id="bio" placeholder="Short Bio"></textarea>
+<textarea id="skills" placeholder="Skills (comma separated)"></textarea>
+<textarea id="experience" placeholder="Experience"></textarea>
+<textarea id="projects" placeholder="Projects"></textarea>
+<textarea id="languages" placeholder="Languages"></textarea>
+
+</div>
+
+<!-- LIVE RESUME -->
+<div class="resume">
+
+<div class="header">
+<h1 id="rName">Your Name</h1>
+<p id="rContact">Email | Phone</p>
+</div>
+
+<div class="section">
+<h3>Profile</h3>
+<p id="rBio">Your short bio appears here.</p>
+</div>
+
+<div class="section">
+<h3>Skills</h3>
+<div id="rSkills"></div>
+</div>
+
+<div class="section">
+<h3>Experience</h3>
+<ul id="rExperience"></ul>
+</div>
+
+<div class="section">
+<h3>Projects</h3>
+<ul id="rProjects"></ul>
+</div>
+
+<div class="section">
+<h3>Languages</h3>
+<p id="rLanguages"></p>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* LIVE AUTO UPDATE */
+document.querySelectorAll("input, textarea")
+.forEach(el => {
+el.addEventListener("input", updateResume);
+});
+
+function updateResume(){
+
+document.getElementById("rName").textContent =
+document.getElementById("name").value || "Your Name";
+
+document.getElementById("rContact").textContent =
+(document.getElementById("email").value || "Email") +
+" | " +
+(document.getElementById("phone").value || "Phone");
+
+document.getElementById("rBio").textContent =
+document.getElementById("bio").value;
+
+/* SKILL TAGS */
+let skills = document.getElementById("skills").value.split(",");
+let skillHTML="";
+skills.forEach(s=>{
+if(s.trim()!=""){
+skillHTML += `<span class="tag">${s.trim()}</span>`;
+}
+});
+document.getElementById("rSkills").innerHTML=skillHTML;
+
+/* EXPERIENCE BULLETS */
+let exp = document.getElementById("experience").value.split(",");
+let expHTML="";
+exp.forEach(e=>{
+if(e.trim()!=""){
+expHTML += `<li>${e.trim()}</li>`;
+}
+});
+document.getElementById("rExperience").innerHTML=expHTML;
+
+/* PROJECTS BULLETS */
+let proj = document.getElementById("projects").value.split(",");
+let projHTML="";
+proj.forEach(p=>{
+if(p.trim()!=""){
+projHTML += `<li>${p.trim()}</li>`;
+}
+});
+document.getElementById("rProjects").innerHTML=projHTML;
+
+/* LANGUAGES */
+document.getElementById("rLanguages").textContent =
+document.getElementById("languages").value;
+
+}
+
+</script>
+
+</body>
+</html>
